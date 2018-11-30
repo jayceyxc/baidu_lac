@@ -16,7 +16,7 @@ extern "C" {
 /// \param content, the content need to be tagged
 /// \return tagged results, or ""
 ///
-const char* cut_sentence(const char* conf_dir, int max_result_num, const char* content);
+char* cut_sentence(const char* conf_dir, int max_result_num, const char* content);
 
 int sum(int a, int b);
 
