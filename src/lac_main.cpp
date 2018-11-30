@@ -21,6 +21,7 @@ limitations under the License. */
 #include <iostream>
 #include "stdlib.h"
 #include "ilac.h"
+#include "lac_main.h"
 
 void* g_lac_handle = NULL;
 int g_line_count = 0;
@@ -60,7 +61,9 @@ int destroy_dict() {
     return 0;
 }
 
-std::string tagging(int max_result_num, std::string content) {
+std::string tagging(const char* conf_dir, int max_result_num, std::string content) {
+    init_dict(conf_dir);
+
     if (g_lac_handle == NULL) {
         std::cerr << "creat g_lac_handle error" << std::endl;
         return "";
@@ -116,12 +119,10 @@ std::string test_main(int argc, char* argv[]) {
     std::cout << "max_result_num" << max_result_num << std::endl;
     std::cout << "content" << content << std::endl;
 
-    init_dict(conf_dir);
-
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    std::string result = tagging(max_result_num, content);
+    std::string result = tagging(conf_dir, max_result_num, content);
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;
