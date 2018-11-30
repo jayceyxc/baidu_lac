@@ -16,6 +16,7 @@ else()
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 set(CMAKE_CXX_FLAGS "-O4 -g -pipe -W -Wall -Wno-unused-parameter -fPIC -fpermissive -std=gnu++11")
+set(PADDLE_ROOT "/Users/yuxuecheng/fluid_install_dir")
 
 if (IS_ABSOLUTE ${PADDLE_ROOT})
     set(PADDLE_ABS_PATH ${PADDLE_ROOT})
@@ -72,10 +73,12 @@ aux_source_directory(src SOURCE)
 
 add_library(lac ${SOURCE} include/ilac.h)
 add_executable(lac_demo test/src/lac_demo.cpp)
-set_target_properties(lac_demo PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
+add_executable(lac_main test/src/lac_main.cpp)
+set_target_properties(lac_main lac_demo PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 target_link_libraries(lac_demo lac)
+target_link_libraries(lac_main lac)
 install(TARGETS lac DESTINATION ${PROJECT_SOURCE_DIR}/output/lib)
-install(TARGETS lac_demo DESTINATION ${PROJECT_SOURCE_DIR}/output/demo)
+install(TARGETS lac_main lac_demo DESTINATION ${PROJECT_SOURCE_DIR}/output/demo)
 install(FILES ${PROJECT_SOURCE_DIR}/include/ilac.h
 		DESTINATION ${PROJECT_SOURCE_DIR}/output/include)
 
