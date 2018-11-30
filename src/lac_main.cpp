@@ -66,6 +66,8 @@ int destroy_dict() {
 }
 
 const char *cut_sentence(const char *conf_dir, int max_result_num, const char *content) {
+    std::cerr << "content: " << content << std::endl;
+    std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -83,6 +85,7 @@ const char *cut_sentence(const char *conf_dir, int max_result_num, const char *c
 
     int result_num = lac_tagging(g_lac_handle,
                                  lac_buff, content, results, max_result_num);
+    std::cerr << "result_num: " << result_num << std::endl;
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                   << std::endl;
@@ -92,18 +95,19 @@ const char *cut_sentence(const char *conf_dir, int max_result_num, const char *c
     std::stringstream ss;
     std::string content_str = content;
     for (int i = 0; i < result_num; i++) {
+        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
-            std::cout << "\t";
+            std::cerr << "\t";
         }
-        std::cout << name << " " << results[i].type << " "
+        std::cerr << name << " " << results[i].type << " "
                   << results[i].offset << " " << results[i].length;
         ss << name << " " << results[i].type << " "
            << results[i].offset << " " << results[i].length;
     }
-    std::cout << std::endl;
-    std::cout << ss.str();
+    std::cerr << std::endl;
+    std::cerr << ss.str();
 
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
