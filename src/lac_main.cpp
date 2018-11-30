@@ -105,8 +105,7 @@ char *cut_sentence(const char *conf_dir, int max_result_num, const char *content
         }
         std::cerr << name << " " << results[i].type << " "
                   << results[i].offset << " " << results[i].length;
-        ss << name << " " << results[i].type << " "
-           << results[i].offset << " " << results[i].length;
+        ss << name << " /" << results[i].type << " ";
     }
     std::cerr << std::endl;
     std::cerr << ss.str();
