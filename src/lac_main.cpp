@@ -102,6 +102,7 @@ std::string tagging(const char* conf_dir, int max_result_num, std::string conten
 
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete [] results;
+    destroy_dict();
     return ss.str();
 }
 
