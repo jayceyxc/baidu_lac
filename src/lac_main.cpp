@@ -61,7 +61,7 @@ int destroy_dict() {
     return 0;
 }
 
-std::string tagging(const char* conf_dir, int max_result_num, std::string content) {
+std::string cut_sentence(const char* conf_dir, int max_result_num, std::string content) {
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -123,7 +123,7 @@ std::string test_main(int argc, char* argv[]) {
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    std::string result = tagging(conf_dir, max_result_num, content);
+    std::string result = cut_sentence(conf_dir, max_result_num, content);
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;

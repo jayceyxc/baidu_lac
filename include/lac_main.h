@@ -16,7 +16,7 @@ extern "C" {
 /// \param content, the content need to be tagged
 /// \return tagged results, or ""
 ///
-std::string tagging(const char* conf_dir, int max_result_num, std::string content);
+std::string cut_sentence(const char* conf_dir, int max_result_num, std::string content);
 
 #ifdef __cplusplus
 }
