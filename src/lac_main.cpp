@@ -23,7 +23,7 @@ limitations under the License. */
 #include "ilac.h"
 #include "lac_main.h"
 
-void* g_lac_handle = NULL;
+void *g_lac_handle = NULL;
 int g_line_count = 0;
 long g_usec_used = 0;
 
@@ -34,23 +34,27 @@ public:
     explicit TimeUsing() {
         start();
     }
+
     virtual ~TimeUsing() {
     }
+
     void start() {
         gettimeofday(&_start, NULL);
     }
+
     long using_time() {
         gettimeofday(&_end, NULL);
         long using_time = (long) (_end.tv_sec - _start.tv_sec) * (long) 1000000
-                + (long) (_end.tv_usec - _start.tv_usec);
+                          + (long) (_end.tv_usec - _start.tv_usec);
         return using_time;
     }
+
 private:
     struct timeval _start;
     struct timeval _end;
 };
 
-int init_dict(const char* conf_dir) {
+int init_dict(const char *conf_dir) {
     g_lac_handle = lac_create(conf_dir);
     std::cerr << "create lac handle successfully" << std::endl;
     return 0;
@@ -61,7 +65,7 @@ int destroy_dict() {
     return 0;
 }
 
-const char* cut_sentence(const char* conf_dir, int max_result_num, const char* content) {
+const char *cut_sentence(const char *conf_dir, int max_result_num, const char *content) {
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -69,7 +73,7 @@ const char* cut_sentence(const char* conf_dir, int max_result_num, const char* c
         return "";
     }
 
-    void* lac_buff = lac_buff_create(g_lac_handle);
+    void *lac_buff = lac_buff_create(g_lac_handle);
     if (lac_buff == NULL) {
         std::cerr << "creat lac_buff error" << std::endl;
         return "";
@@ -78,17 +82,18 @@ const char* cut_sentence(const char* conf_dir, int max_result_num, const char* c
     tag_t *results = new tag_t[max_result_num];
 
     int result_num = lac_tagging(g_lac_handle,
-            lac_buff, content, results, max_result_num);
+                                 lac_buff, content, results, max_result_num);
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
-                << std::endl;
+                  << std::endl;
         return "";
     }
 
     std::stringstream ss;
+    std::string content_str = content;
     for (int i = 0; i < result_num; i++) {
-        std::string name = content.substr(results[i].offset,
-                                          results[i].length);
+        std::string name = content_str.substr(results[i].offset,
+                                              results[i].length);
         if (i >= 1) {
             std::cout << "\t";
         }
@@ -101,19 +106,19 @@ const char* cut_sentence(const char* conf_dir, int max_result_num, const char* c
     std::cout << ss.str();
 
     lac_buff_destroy(g_lac_handle, lac_buff);
-    delete [] results;
+    delete[] results;
     destroy_dict();
     return ss.str().c_str();
 }
 
-std::string test_main(int argc, char* argv[]) {
+std::string test_main(int argc, char *argv[]) {
     if (argc < 4) {
         std::cout << "Usage: " << argv[0]
                   << " + conf_dir + max_tokens + content"
                   << std::endl;
         exit(-1);
     }
-    const char* conf_dir = argv[1];
+    const char *conf_dir = argv[1];
     int max_result_num = atoi(argv[2]);
     const char *content = argv[3];
     std::cout << "conf_dif" << conf_dir << std::endl;
@@ -123,7 +128,7 @@ std::string test_main(int argc, char* argv[]) {
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    const char* result = cut_sentence(conf_dir, max_result_num, content);
+    const char *result = cut_sentence(conf_dir, max_result_num, content);
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;
@@ -138,7 +143,7 @@ int sum(int a, int b) {
     return a + b;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     test_main(argc, argv);
     return 0;
 }
