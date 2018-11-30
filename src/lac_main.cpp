@@ -61,7 +61,7 @@ int destroy_dict() {
     return 0;
 }
 
-std::string cut_sentence(const char* conf_dir, int max_result_num, std::string content) {
+const char* cut_sentence(const char* conf_dir, int max_result_num, const char* content) {
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -78,7 +78,7 @@ std::string cut_sentence(const char* conf_dir, int max_result_num, std::string c
     tag_t *results = new tag_t[max_result_num];
 
     int result_num = lac_tagging(g_lac_handle,
-            lac_buff, content.c_str(), results, max_result_num);
+            lac_buff, content, results, max_result_num);
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                 << std::endl;
@@ -103,7 +103,7 @@ std::string cut_sentence(const char* conf_dir, int max_result_num, std::string c
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete [] results;
     destroy_dict();
-    return ss.str();
+    return ss.str().c_str();
 }
 
 std::string test_main(int argc, char* argv[]) {
@@ -123,7 +123,7 @@ std::string test_main(int argc, char* argv[]) {
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    std::string result = cut_sentence(conf_dir, max_result_num, content);
+    const char* result = cut_sentence(conf_dir, max_result_num, content);
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;
@@ -132,6 +132,10 @@ std::string test_main(int argc, char* argv[]) {
 
     destroy_dict();
     return result;
+}
+
+int sum(int a, int b) {
+    return a + b;
 }
 
 int main(int argc, char* argv[]) {
