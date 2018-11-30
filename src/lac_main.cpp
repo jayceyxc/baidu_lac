@@ -74,13 +74,13 @@ char *cut_sentence(const char *conf_dir, int max_result_num, const char *content
 
     if (g_lac_handle == NULL) {
         std::cerr << "creat g_lac_handle error" << std::endl;
-        return "";
+        return NULL;
     }
 
     void *lac_buff = lac_buff_create(g_lac_handle);
     if (lac_buff == NULL) {
         std::cerr << "creat lac_buff error" << std::endl;
-        return "";
+        return NULL;
     }
     std::cerr << "create lac buff successfully" << std::endl;
     tag_t *results = new tag_t[max_result_num];
@@ -91,7 +91,7 @@ char *cut_sentence(const char *conf_dir, int max_result_num, const char *content
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                   << std::endl;
-        return "";
+        return NULL;
     }
 
     std::stringstream ss;
