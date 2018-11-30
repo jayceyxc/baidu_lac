@@ -20,6 +20,8 @@ const char* cut_sentence(const char* conf_dir, int max_result_num, const char* c
 
 int sum(int a, int b);
 
+void freeme(char *ptr);
+
 #ifdef __cplusplus
 }
 #endif

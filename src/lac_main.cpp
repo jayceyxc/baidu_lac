@@ -16,6 +16,8 @@ limitations under the License. */
 #include <list>
 #include <vector>
 #include <string>
+#include <cstring>
+#include <cstdio>
 #include <sstream>
 #include <sys/time.h>
 #include <iostream>
@@ -65,7 +67,7 @@ int destroy_dict() {
     return 0;
 }
 
-const char *cut_sentence(const char *conf_dir, int max_result_num, const char *content) {
+char *cut_sentence(const char *conf_dir, int max_result_num, const char *content) {
     std::cerr << "content: " << content << std::endl;
     std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
@@ -112,7 +114,16 @@ const char *cut_sentence(const char *conf_dir, int max_result_num, const char *c
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
     destroy_dict();
-    return ss.str().c_str();
+    std::cerr << "return value: " << ss.str();
+    char *buf = strdup(ss.str().c_str());
+    printf("allocated address: %p\n", buf);
+    return buf;
+}
+
+void freeme(char *ptr)
+{
+    printf("freeing address: %p\n", ptr);
+    free(ptr);
 }
 
 std::string test_main(int argc, char *argv[]) {
