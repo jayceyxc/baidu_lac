@@ -230,7 +230,9 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
         }
 //        std::cerr << name << " " << results[i].type << " "
 //                  << results[i].offset << " " << results[i].length;
-        ss << name << " ";
+        if (strncmp(results[i].type, "w", strlen("w")) != 0) {
+            ss << name << " ";
+        }
     }
 //    std::cerr << std::endl;
 //    std::cerr << ss.str();
@@ -250,7 +252,7 @@ void freeme(void *ptr)
     free(ptr);
 }
 
-std::string test_main(int argc, char *argv[]) {
+void test_main(int argc, char *argv[]) {
     if (argc < 4) {
         std::cout << "Usage: " << argv[0]
                   << " + conf_dir + max_tokens + content"
@@ -267,7 +269,23 @@ std::string test_main(int argc, char *argv[]) {
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    const char *result = cut(conf_dir, max_result_num, content);
+    const char *cut_result = cut(conf_dir, max_result_num, content);
+    std::cout << "cut: " << cut_result << std::endl;
+    if (cut_result != NULL) {
+        freeme((void *)cut_result);
+    }
+
+    const char *lexer_result = lexer(conf_dir, max_result_num, content);
+    std::cout << "lexer: " << lexer_result << std::endl;
+    if (cut_result != NULL) {
+        freeme((void *)lexer_result);
+    }
+
+    const char *posseg_result = posseg(conf_dir, max_result_num, content);
+    std::cout << "posseg: " << posseg_result << std::endl;
+    if (cut_result != NULL) {
+        freeme((void *)posseg_result);
+    }
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;
@@ -275,7 +293,6 @@ std::string test_main(int argc, char *argv[]) {
     std::cerr << "page/s : " << g_line_count / time_using << std::endl;
 
     destroy_dict();
-    return result;
 }
 
 int sum(int a, int b) {
