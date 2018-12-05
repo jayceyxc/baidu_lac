@@ -108,7 +108,7 @@ char *lexer(const char *conf_dir, int max_result_num, const char *content) {
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
-            std::cerr << "\t";
+            ss << "\t";
         }
 //        std::cerr << name << " " << results[i].type << " "
 //                  << results[i].offset << " " << results[i].length;
@@ -120,9 +120,9 @@ char *lexer(const char *conf_dir, int max_result_num, const char *content) {
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
     destroy_dict();
-    std::cerr << "return value: " << ss.str();
+    std::cerr << "\nreturn value: " << ss.str();
     char *buf = strdup(ss.str().c_str());
-    printf("allocated address: %p\n", buf);
+    printf("\nallocated address: %p\n", buf);
     return buf;
 }
 
@@ -167,7 +167,7 @@ char *posseg(const char *conf_dir, int max_result_num, const char *content) {
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
-            std::cerr << "\t";
+            ss << "\t";
         }
 //        std::cerr << name << " " << results[i].type << " "
 //                  << results[i].offset << " " << results[i].length;
@@ -179,9 +179,9 @@ char *posseg(const char *conf_dir, int max_result_num, const char *content) {
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
     destroy_dict();
-    std::cerr << "return value: " << ss.str();
+    std::cerr << "\nreturn value: " << ss.str();
     char *buf = strdup(ss.str().c_str());
-    printf("allocated address: %p\n", buf);
+    printf("\nallocated address: %p\n", buf);
     return buf;
 }
 
@@ -226,7 +226,7 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
-            std::cerr << "\t";
+            ss << "\t";
         }
 //        std::cerr << name << " " << results[i].type << " "
 //                  << results[i].offset << " " << results[i].length;
@@ -238,9 +238,9 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
     destroy_dict();
-    std::cerr << "return value: " << ss.str();
+    std::cerr << "\nreturn value: " << ss.str();
     char *buf = strdup(ss.str().c_str());
-    printf("allocated address: %p\n", buf);
+    printf("\nallocated address: %p\n", buf);
     return buf;
 }
 
