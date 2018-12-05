@@ -244,7 +244,7 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
     return buf;
 }
 
-void freeme(char *ptr)
+void freeme(void *ptr)
 {
     printf("freeing address: %p\n", ptr);
     free(ptr);

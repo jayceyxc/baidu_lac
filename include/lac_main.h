@@ -24,7 +24,7 @@ char* cut(const char* conf_dir, int max_result_num, const char* content);
 
 int sum(int a, int b);
 
-void freeme(char *ptr);
+void freeme(void *ptr);
 
 #ifdef __cplusplus
 }
