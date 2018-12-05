@@ -225,9 +225,9 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
 //        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
-        if (i >= 1) {
-            ss << "\t";
-        }
+//        if (i >= 1) {
+//            ss << "\t";
+//        }
 //        std::cerr << name << " " << results[i].type << " "
 //                  << results[i].offset << " " << results[i].length;
         if (strncmp(results[i].type, "w", strlen("w")) != 0) {
