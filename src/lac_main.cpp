@@ -67,7 +67,73 @@ int destroy_dict() {
     return 0;
 }
 
-char *cut_sentence(const char *conf_dir, int max_result_num, const char *content) {
+/**
+ * 切分语句，返回分词结果，每个词语的词性，以及每个词语在句子中的起始和截止位置
+ * @param conf_dir
+ * @param max_result_num
+ * @param content
+ * @return
+ */
+char *lexer(const char *conf_dir, int max_result_num, const char *content) {
+    std::cerr << "content: " << content << std::endl;
+    std::cerr << "configure dir: " << conf_dir << std::endl;
+    init_dict(conf_dir);
+
+    if (g_lac_handle == NULL) {
+        std::cerr << "creat g_lac_handle error" << std::endl;
+        return NULL;
+    }
+
+    void *lac_buff = lac_buff_create(g_lac_handle);
+    if (lac_buff == NULL) {
+        std::cerr << "creat lac_buff error" << std::endl;
+        return NULL;
+    }
+    std::cerr << "create lac buff successfully" << std::endl;
+    tag_t *results = new tag_t[max_result_num];
+
+    int result_num = lac_tagging(g_lac_handle,
+                                 lac_buff, content, results, max_result_num);
+    std::cerr << "result_num: " << result_num << std::endl;
+    if (result_num < 0) {
+        std::cerr << "lac tagging failed : content = " << content
+                  << std::endl;
+        return NULL;
+    }
+
+    std::stringstream ss;
+    std::string content_str = content;
+    for (int i = 0; i < result_num; i++) {
+        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
+        std::string name = content_str.substr(results[i].offset,
+                                              results[i].length);
+        if (i >= 1) {
+            std::cerr << "\t";
+        }
+        std::cerr << name << " " << results[i].type << " "
+                  << results[i].offset << " " << results[i].length;
+        ss << name << " /" << results[i].type << " " << results[i].offset << " " << results[i].length;
+    }
+    std::cerr << std::endl;
+    std::cerr << ss.str();
+
+    lac_buff_destroy(g_lac_handle, lac_buff);
+    delete[] results;
+    destroy_dict();
+    std::cerr << "return value: " << ss.str();
+    char *buf = strdup(ss.str().c_str());
+    printf("allocated address: %p\n", buf);
+    return buf;
+}
+
+/**
+ * 切分语句，返回分词结果及每个词语的词性
+ * @param conf_dir
+ * @param max_result_num
+ * @param content
+ * @return
+ */
+char *posseg(const char *conf_dir, int max_result_num, const char *content) {
     std::cerr << "content: " << content << std::endl;
     std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
@@ -106,6 +172,65 @@ char *cut_sentence(const char *conf_dir, int max_result_num, const char *content
         std::cerr << name << " " << results[i].type << " "
                   << results[i].offset << " " << results[i].length;
         ss << name << " /" << results[i].type << " ";
+    }
+    std::cerr << std::endl;
+    std::cerr << ss.str();
+
+    lac_buff_destroy(g_lac_handle, lac_buff);
+    delete[] results;
+    destroy_dict();
+    std::cerr << "return value: " << ss.str();
+    char *buf = strdup(ss.str().c_str());
+    printf("allocated address: %p\n", buf);
+    return buf;
+}
+
+/**
+ * 切分语句，返回分词结果
+ * @param conf_dir
+ * @param max_result_num
+ * @param content
+ * @return
+ */
+char *cut(const char *conf_dir, int max_result_num, const char *content) {
+    std::cerr << "content: " << content << std::endl;
+    std::cerr << "configure dir: " << conf_dir << std::endl;
+    init_dict(conf_dir);
+
+    if (g_lac_handle == NULL) {
+        std::cerr << "creat g_lac_handle error" << std::endl;
+        return NULL;
+    }
+
+    void *lac_buff = lac_buff_create(g_lac_handle);
+    if (lac_buff == NULL) {
+        std::cerr << "creat lac_buff error" << std::endl;
+        return NULL;
+    }
+    std::cerr << "create lac buff successfully" << std::endl;
+    tag_t *results = new tag_t[max_result_num];
+
+    int result_num = lac_tagging(g_lac_handle,
+                                 lac_buff, content, results, max_result_num);
+    std::cerr << "result_num: " << result_num << std::endl;
+    if (result_num < 0) {
+        std::cerr << "lac tagging failed : content = " << content
+                  << std::endl;
+        return NULL;
+    }
+
+    std::stringstream ss;
+    std::string content_str = content;
+    for (int i = 0; i < result_num; i++) {
+        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
+        std::string name = content_str.substr(results[i].offset,
+                                              results[i].length);
+        if (i >= 1) {
+            std::cerr << "\t";
+        }
+        std::cerr << name << " " << results[i].type << " "
+                  << results[i].offset << " " << results[i].length;
+        ss << name << " ";
     }
     std::cerr << std::endl;
     std::cerr << ss.str();
