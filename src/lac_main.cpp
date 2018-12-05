@@ -75,8 +75,8 @@ int destroy_dict() {
  * @return
  */
 char *lexer(const char *conf_dir, int max_result_num, const char *content) {
-    std::cerr << "content: " << content << std::endl;
-    std::cerr << "configure dir: " << conf_dir << std::endl;
+//    std::cerr << "content: " << content << std::endl;
+//    std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -89,12 +89,12 @@ char *lexer(const char *conf_dir, int max_result_num, const char *content) {
         std::cerr << "creat lac_buff error" << std::endl;
         return NULL;
     }
-    std::cerr << "create lac buff successfully" << std::endl;
+//    std::cerr << "create lac buff successfully" << std::endl;
     tag_t *results = new tag_t[max_result_num];
 
     int result_num = lac_tagging(g_lac_handle,
                                  lac_buff, content, results, max_result_num);
-    std::cerr << "result_num: " << result_num << std::endl;
+//    std::cerr << "result_num: " << result_num << std::endl;
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                   << std::endl;
@@ -104,18 +104,18 @@ char *lexer(const char *conf_dir, int max_result_num, const char *content) {
     std::stringstream ss;
     std::string content_str = content;
     for (int i = 0; i < result_num; i++) {
-        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
+//        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
             std::cerr << "\t";
         }
-        std::cerr << name << " " << results[i].type << " "
-                  << results[i].offset << " " << results[i].length;
+//        std::cerr << name << " " << results[i].type << " "
+//                  << results[i].offset << " " << results[i].length;
         ss << name << " /" << results[i].type << " " << results[i].offset << " " << results[i].length;
     }
-    std::cerr << std::endl;
-    std::cerr << ss.str();
+//    std::cerr << std::endl;
+//    std::cerr << ss.str();
 
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
@@ -134,8 +134,8 @@ char *lexer(const char *conf_dir, int max_result_num, const char *content) {
  * @return
  */
 char *posseg(const char *conf_dir, int max_result_num, const char *content) {
-    std::cerr << "content: " << content << std::endl;
-    std::cerr << "configure dir: " << conf_dir << std::endl;
+//    std::cerr << "content: " << content << std::endl;
+//    std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -148,12 +148,12 @@ char *posseg(const char *conf_dir, int max_result_num, const char *content) {
         std::cerr << "creat lac_buff error" << std::endl;
         return NULL;
     }
-    std::cerr << "create lac buff successfully" << std::endl;
+//    std::cerr << "create lac buff successfully" << std::endl;
     tag_t *results = new tag_t[max_result_num];
 
     int result_num = lac_tagging(g_lac_handle,
                                  lac_buff, content, results, max_result_num);
-    std::cerr << "result_num: " << result_num << std::endl;
+//    std::cerr << "result_num: " << result_num << std::endl;
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                   << std::endl;
@@ -163,18 +163,18 @@ char *posseg(const char *conf_dir, int max_result_num, const char *content) {
     std::stringstream ss;
     std::string content_str = content;
     for (int i = 0; i < result_num; i++) {
-        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
+//        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
             std::cerr << "\t";
         }
-        std::cerr << name << " " << results[i].type << " "
-                  << results[i].offset << " " << results[i].length;
+//        std::cerr << name << " " << results[i].type << " "
+//                  << results[i].offset << " " << results[i].length;
         ss << name << " /" << results[i].type << " ";
     }
-    std::cerr << std::endl;
-    std::cerr << ss.str();
+//    std::cerr << std::endl;
+//    std::cerr << ss.str();
 
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
@@ -193,8 +193,8 @@ char *posseg(const char *conf_dir, int max_result_num, const char *content) {
  * @return
  */
 char *cut(const char *conf_dir, int max_result_num, const char *content) {
-    std::cerr << "content: " << content << std::endl;
-    std::cerr << "configure dir: " << conf_dir << std::endl;
+//    std::cerr << "content: " << content << std::endl;
+//    std::cerr << "configure dir: " << conf_dir << std::endl;
     init_dict(conf_dir);
 
     if (g_lac_handle == NULL) {
@@ -207,12 +207,12 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
         std::cerr << "creat lac_buff error" << std::endl;
         return NULL;
     }
-    std::cerr << "create lac buff successfully" << std::endl;
+//    std::cerr << "create lac buff successfully" << std::endl;
     tag_t *results = new tag_t[max_result_num];
 
     int result_num = lac_tagging(g_lac_handle,
                                  lac_buff, content, results, max_result_num);
-    std::cerr << "result_num: " << result_num << std::endl;
+//    std::cerr << "result_num: " << result_num << std::endl;
     if (result_num < 0) {
         std::cerr << "lac tagging failed : content = " << content
                   << std::endl;
@@ -222,18 +222,18 @@ char *cut(const char *conf_dir, int max_result_num, const char *content) {
     std::stringstream ss;
     std::string content_str = content;
     for (int i = 0; i < result_num; i++) {
-        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
+//        std::cerr << "offset: " << results[i].offset << ", length: " << results[i].length << std::endl;
         std::string name = content_str.substr(results[i].offset,
                                               results[i].length);
         if (i >= 1) {
             std::cerr << "\t";
         }
-        std::cerr << name << " " << results[i].type << " "
-                  << results[i].offset << " " << results[i].length;
+//        std::cerr << name << " " << results[i].type << " "
+//                  << results[i].offset << " " << results[i].length;
         ss << name << " ";
     }
-    std::cerr << std::endl;
-    std::cerr << ss.str();
+//    std::cerr << std::endl;
+//    std::cerr << ss.str();
 
     lac_buff_destroy(g_lac_handle, lac_buff);
     delete[] results;
