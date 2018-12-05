@@ -267,7 +267,7 @@ std::string test_main(int argc, char *argv[]) {
     TimeUsing t;
 
     g_usec_used += t.using_time();
-    const char *result = cut_sentence(conf_dir, max_result_num, content);
+    const char *result = cut(conf_dir, max_result_num, content);
 
     double time_using = (double) g_usec_used / 1000000.0;
     std::cerr << "page num: " << g_line_count << std::endl;
