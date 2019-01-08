@@ -43,6 +43,8 @@ CustomizationTagger* CustomizationTagger::create(const char* conf_dir) {
 
     std::string conf_dir_str(conf_dir);
     conf_dir_str.append("/customization_*.dic");
+    std::cout << "conf dir: " << conf_dir << std::endl;
+    std::cout << "glob pattern: " << conf_dir_str.c_str() << std::endl;
     glob(conf_dir_str.c_str(), GLOB_NOSORT, nullptr, &buf);
     for (i = 0; i < buf.gl_pathc; i++) {
         std::cout << "buf.gl_pathv[" << i << "]= " << buf.gl_pathv[i] << std::endl;
