@@ -58,6 +58,10 @@ private:
 
 int init_dict(const char *conf_dir) {
     g_lac_handle = lac_create(conf_dir);
+    if (g_lac_handle == NULL) {
+        std::cerr << "create lac handle failed" << std::endl;
+        return -1;
+    }
     std::cerr << "create lac handle successfully" << std::endl;
     return 0;
 }
