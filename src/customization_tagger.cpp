@@ -16,6 +16,7 @@ limitations under the License. */
 #include <string.h>
 #include <fstream>
 #include <thread>
+#include <glob.h>
 #include "lac_util.h"
 
 namespace lac {
@@ -28,6 +29,8 @@ CustomizationTagger::~CustomizationTagger() {
 }
 
 CustomizationTagger* CustomizationTagger::create(const char* conf_dir) {
+    glob_t buf;
+    size_t i;
     if (conf_dir == NULL) {
         std::cerr << "conf directory for creating CustomizationTagger is null"
                 << std::endl;
@@ -39,6 +42,11 @@ CustomizationTagger* CustomizationTagger::create(const char* conf_dir) {
     }
 
     std::string conf_dir_str(conf_dir);
+    conf_dir_str.append("/customization_*.dic");
+    glob(conf_dir_str.c_str(), GLOB_NOSORT, nullptr, &buf);
+    for (i = 0; i < buf.gl_pathc; i++) {
+        std::cout << "buf.gl_pathv[" << i << "]= " << buf.gl_pathv[i] << std::endl;
+    }
 
     std::string customization_dic_path = conf_dir_str + "/customization.dic";
     if (handle->load_customization_dic(customization_dic_path) != _SUCCESS) {
